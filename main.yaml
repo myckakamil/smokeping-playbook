@@ -12,6 +12,9 @@
       ansible.builtin.include_vars: vars/vault.yaml
 
   tasks:
+    - name: Include tasks
+      ansible.builtin.include_tasks: tasks/preconfigure.yaml
+
     - name: Install required packages
       ansible.builtin.apt:
         name:
@@ -33,7 +36,8 @@
         regexp: '\.--upper-limit., \$max->\{\$s\}\{\$start\},'
         replace: |
           #--upper-limit, $max->{$s}{$start},
-                  "--upper-limit", ($max->{$s}{$start} > 0.025) ? $max->{$s}{$start} : 0.025,
+          "--upper-limit", ($max->{$s}{$start} > 0.025)
+          ? $max->{$s}{$start} : 0.025,
 
     - name: Copy apache config for smokeping
       ansible.builtin.copy:

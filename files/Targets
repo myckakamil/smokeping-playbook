@@ -1,0 +1,24 @@
+*** Targets ***
+
+probe = FPing
+
+menu = Top
+title = Smokeping server
+
++ net
+menu = Internet
+title = Internet
+++ 8_8_8_8
+menu = Google DNS
+title = 8.8.8.8 - Google DNS
+host = 8.8.8.8
+++ 1_1_1_1
+menu = CloudFlare DNS
+title = 1.1.1.1 - CloudFlare DNS
+host = 1.1.1.1
+++ quad9_dns
+menu = Quad9 DNS
+title = Quad9 DNS - 9.9.9.9
+host = 9.9.9.9
+
+@include /etc/smokeping/config.d/Targets_Manual

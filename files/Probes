@@ -1,0 +1,18 @@
+*** Probes ***
+
++ FPing
+
+binary = /usr/bin/fping
+mininterval = 0.001
+
+++ FPing
+++ FPing0
+++ FPing1
+++ FPing2
+++ FPing3
+++ FPing4
+++ FPing5
+++ FPing6
+++ FPing7
+++ FPing8
+++ FPing9

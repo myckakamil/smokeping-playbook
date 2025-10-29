@@ -1,0 +1,16 @@
+*** Database ***
+
+step     = 60
+pings    = 20
+
+# consfn mrhb steps total
+
+# https://oss.oetiker.ch/smokeping/doc/smokeping_config.en.html - nie kumam do czego tu jest min/max, zrobiłem po swojemu dla step 60 (pingi co 1 min)
+# pełna dokładność przez 1 dzień + 1 rekord na zakładkę
+AVERAGE  0.5   1  1441
+# średnia z 5 min przez 7 dni + 1
+AVERAGE  0.5  5   2017
+# średnia z 20 min przez 30 dni + 1
+AVERAGE  0.5  20   2161
+# średnia ze 24h przez 3 lata
+AVERAGE  0.5 1440   1095

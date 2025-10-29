@@ -1,5 +1,5 @@
 ---
-target_group: "ISP"
+target_group: "ISP_hosts"
 client:
   - {name: "U12345", ip_address: "100.54.30.51"}
   - {name: "U12346", ip_address: "100.54.30.52"}

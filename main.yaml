@@ -1,0 +1,83 @@
+---
+- name: Install smokeping
+  hosts: smokeping
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+    - name: Załaduj zmienne
+      ansible.builtin.include_vars: vars/config.yaml
+
+  tasks:
+    - name: Include tasks
+      ansible.builtin.include_tasks: tasks/preconfigure.yaml
+
+    - name: Install required packages
+      ansible.builtin.apt:
+        name:
+          - apache2
+          - libapache2-mod-fcgid
+          - smokeping
+        state: present
+
+    - name: Ensure LINE1 modification is present in Smokeping.pm
+      ansible.builtin.lineinfile:
+        path: /usr/share/perl5/Smokeping.pm
+        line: '                    "LINE1:0.020#ff00ff",'
+        insertafter: '"CDEF:mesd=median,POP,avmed,\$stddev,/",'
+        state: present
+
+    - name: Insert upper limit modification into Smokeping.pm
+      ansible.builtin.replace:
+        path: /usr/share/perl5/Smokeping.pm
+        regexp: '\.--upper-limit., \$max->\{\$s\}\{\$start\},'
+        replace: |
+          #--upper-limit, $max->{$s}{$start},
+          "--upper-limit", ($max->{$s}{$start} > 0.025)
+          ? $max->{$s}{$start} : 0.025,
+
+    - name: Copy apache config for smokeping
+      ansible.builtin.copy:
+        src: files/smokeping.conf
+        dest: /etc/apache2/conf-available/smokeping.conf
+        mode: "644"
+        owner: www-data
+        group: www-data
+      notify: Restart apache
+
+    - name: Copy smokeping config
+      ansible.builtin.copy:
+        src: files/{{ item }}
+        dest: /etc/smokeping/config.d/{{ item }}
+        mode: "644"
+        owner: root
+        group: root
+      loop:
+        - Database
+        - Probes
+        - Presentation
+        - Targets
+      notify: Restart smokeping
+
+    - name: Copy smokeping targets template
+      ansible.builtin.template:
+        src: templates/Targets_Manual.j2
+        dest: /etc/smokeping/config.d/Targets_Manual
+        mode: "644"
+        owner: root
+        group: root
+      notify: Restart smokeping
+
+  handlers:
+    - name: Restart apache
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+
+    - name: Restart smokeping
+      ansible.builtin.service:
+        name: smokeping
+        state: restarted

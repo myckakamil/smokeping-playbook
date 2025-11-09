@@ -1,0 +1,58 @@
+*** Presentation ***
+
+template = /etc/smokeping/basepage.html
+charset = utf-8
+graphborders = no
+
++ charts
+
+menu = Charts
+title = The most interesting destinations
+
+++ stddev
+sorter = StdDev(entries=>20)
+title = Top Standard Deviation
+menu = Std Deviation
+format = Standard Deviation %f
+
+++ max
+sorter = Max(entries=>20)
+title = Top Max Roundtrip Time
+menu = by Max
+format = Max Roundtrip Time %f seconds
+
+++ loss
+sorter = Loss(entries=>20)
+title = Top Packet Loss
+menu = Loss
+format = Packets Lost %f
+
+++ median
+sorter = Median(entries=>20)
+title = Top Median Roundtrip Time
+menu = by Median
+format = Median RTT %f seconds
+
++ overview
+
+width = 600
+height = 50
+range = 10h
+
++ detail
+
+width = 600
+height = 200
+unison_tolerance = 2
+loss_background = yes
+
+"Last 1 day"      1d
+"Last 7 days"     7d
+"Last 30 days"    30d
+"Last 365 days"   365d
+
+#+ hierarchies
+#++ owner
+#title = Host Owner
+#++ location
+#title = Location

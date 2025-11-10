@@ -1,6 +1,6 @@
 ---
 target_group: "Manual"
-infra:
+manual:
   - {name: "router - wave", ip_address: "192.168.99.1"}
   - {name: "router - lan", ip_address: "router.lan.mycka.net"}
   - {name: "switch - lan", ip_address: "crs326.lan.mycka.net"}

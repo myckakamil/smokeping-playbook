@@ -6,26 +6,10 @@
 menu = {{ target_group }}
 title = {{ target_group }}
 
-# --- Clients ---
-{% if client is defined and client|length > 0 %}
-++ Clients
-menu = Clients
-title = Clients
-{% for h in client %}
-+++ {{ h.name | replace(' ', '_') | replace('-', '_') }}
-menu = {{ h.name }} - {{ h.ip_address }}
-title = {{ h.name }} - {{ h.ip_address }}
-host = {{ h.ip_address }}
-{% endfor %}
-{% endif %}
-
 # --- Infrastructure ---
-{% if infra is defined and infra|length > 0 %}
-++ Infrastructure
-menu = Infrastructure
-title = Infrastructure
-{% for h in infra %}
-+++ {{ h.name | replace(' ', '_') | replace('-', '_') }}
+{% if manual is defined and manual|length > 0 %}
+{% for h in manual %}
+++ {{ h.name | replace(' ', '_') | replace('-', '_') }}
 menu = {{ h.name }} - {{ h.ip_address }}
 title = {{ h.name }} - {{ h.ip_address }}
 host = {{ h.ip_address }}

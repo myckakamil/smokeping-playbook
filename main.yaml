@@ -3,6 +3,9 @@
   hosts: smokeping
   become: true
 
+  roles:
+    - myckakamil.snmpd
+
   pre_tasks:
     - name: Update apt cache
       ansible.builtin.apt:

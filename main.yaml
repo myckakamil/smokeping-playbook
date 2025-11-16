@@ -26,6 +26,15 @@
           - smokeping
         state: present
 
+    - name: Make SmokePing the default site (redirect from /)
+      ansible.builtin.blockinfile:
+        path: /etc/apache2/sites-available/000-default.conf
+        marker: "# {mark} ANSIBLE SMOKEPING REDIRECT"
+        block: |
+          RedirectMatch ^/$ /smokeping/
+      notify: Restart apache
+
+
     - name: Ensure LINE1 modification is present in Smokeping.pm
       ansible.builtin.lineinfile:
         path: /usr/share/perl5/Smokeping.pm

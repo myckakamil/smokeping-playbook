@@ -1,4 +1,4 @@
-# Ansible Playbook — Smokeping Deployment
+# Ansible Playbook - Smokeping Deployment
 
 This repository contains an **Ansible playbook** that automates the installation and configuration of [Smokeping](https://oss.oetiker.ch/smokeping/). It configures Apache, adjusts Smokeping’s internal parameters, and deploys templated configuration files for monitoring your targets.
 
@@ -44,7 +44,7 @@ http://yourserver.example.com/smokeping
 ```
 
 ## Variables
-Sensitive variables like client IP addresses and thir client number are stored in `vars/vault.yaml`. To edit:
+Sensitive variables like your public IP addresses are stored in `vars/vault.yaml`. To edit:
 ```
 ansible-vault edit vars/vault.yaml
 ```

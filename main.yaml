@@ -5,6 +5,7 @@
 
   roles:
     - myckakamil.snmpd
+    - myckakamil.apache
 
   pre_tasks:
     - name: Update apt cache
@@ -28,12 +29,14 @@
 
     - name: Make SmokePing the default site (redirect from /)
       ansible.builtin.blockinfile:
-        path: /etc/apache2/sites-available/000-default.conf
+        path: "{{ item }}"
         marker: "# {mark} ANSIBLE SMOKEPING REDIRECT"
         block: |
           RedirectMatch ^/$ /smokeping/
+      loop:
+        - /etc/apache2/sites-available/000-default.conf
+        - /etc/apache2/sites-available/default-ssl.conf
       notify: Restart apache
-
 
     - name: Ensure LINE1 modification is present in Smokeping.pm
       ansible.builtin.lineinfile:

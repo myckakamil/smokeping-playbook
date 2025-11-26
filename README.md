@@ -15,12 +15,12 @@ yourserver.example.com ansible_user=admin
 ```
 ### 3. Run the playbook
 ```
-ansible-playbook -i inventory playbook.yaml --ask-vault-pass
+ansible-playbook -i inventory playbook.yaml
 ```
 ### 4. Access the web UI
 Once deployed, Smokeping should be available at:
 ```
-http://yourserver.example.com/smokeping
+https://yourserver.example.com/smokeping
 ```
 
 ## Repository Structure
@@ -44,12 +44,15 @@ http://yourserver.example.com/smokeping
 ```
 
 ## Variables
-Sensitive variables like your public IP addresses are stored in `vars/vault.yaml`. To edit:
-```
-ansible-vault edit vars/vault.yaml
+All variables are stored in `vars/config.yaml`. They store smokeping targets that I'm monitoring:
+```yaml
+---
+target_group: "Manual"
+manual:
+  - {name: "router - wave", ip_address: "10.20.30.40"}
 ```
 
-## How the Template Works
+## How my smokeping template works
 The template `Targets_Manual.j2` dynamically creates sections based on defined target groups:
 ```jinja
 + {{ target_group }}
@@ -62,7 +65,7 @@ title = {{ target_group }}
 host = {{ h.ip_address }}
 {% endfor %}
 ```
-Example variable structure:
+Example variable structure from `vars/config.yaml`:
 ```yaml
 ---
 target_group: "ISP_hosts"

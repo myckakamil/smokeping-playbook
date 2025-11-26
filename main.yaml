@@ -16,9 +16,6 @@
       ansible.builtin.include_vars: vars/config.yaml
 
   tasks:
-    - name: Include tasks
-      ansible.builtin.include_tasks: tasks/preconfigure.yaml
-
     - name: Install required packages
       ansible.builtin.apt:
         name:
@@ -26,17 +23,6 @@
           - libapache2-mod-fcgid
           - smokeping
         state: present
-
-    - name: Make SmokePing the default site (redirect from /)
-      ansible.builtin.blockinfile:
-        path: "{{ item }}"
-        marker: "# {mark} ANSIBLE SMOKEPING REDIRECT"
-        block: |
-          RedirectMatch ^/$ /smokeping/
-      loop:
-        - /etc/apache2/sites-available/000-default.conf
-        - /etc/apache2/sites-available/default-ssl.conf
-      notify: Restart apache
 
     - name: Ensure LINE1 modification is present in Smokeping.pm
       ansible.builtin.lineinfile:
